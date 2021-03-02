@@ -7,6 +7,7 @@
     
     <div class="row">
         <div class="col-6">
+            <p>{{ $task->user_id }}</p>
             {!! Form::model($task, ["route" => "tasks.store"]) !!}
             
                 <div class="form-group">

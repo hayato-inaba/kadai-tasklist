@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Task;
 
+
+
 class TasksController extends Controller
 {
     /**
@@ -15,11 +17,17 @@ class TasksController extends Controller
      */
     public function index()
     {
+       
+        $user = \Auth::user();    
         $tasks = Task::all();
-        
         return view("tasks.index",[
-            "tasks" => $tasks,
+                "tasks" => $tasks,
+
         ]);
+            
+            
+        
+        
     }
 
     /**
@@ -48,8 +56,11 @@ class TasksController extends Controller
             "status" => "required|max:10",
             "content" => "required|max:255",
             ]);
+            
+        $user = \Auth::user();
         
         $task = new Task;
+        $task->user_id = $user->id;
         $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
@@ -80,11 +91,20 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
+        $user = \Auth::user();
+        $task = Task::findOrFail($id);
+        if($task->user_id == $user->id){
         $task = Task::findOrFail($id);
         
         return view("tasks.edit", [
             "task" => $task,
         ]);
+            
+        }
+        
+        else{
+            return redirect("/");
+        }
     }
 
     /**
@@ -118,9 +138,13 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        
+        $user = \Auth::user();
         $task = Task::findOrFail($id);
-        $task->delete();
+        if($task->user_id == $user->id){
+            $task->delete();
+            
+        }
+        
         
         return redirect("/");
     }

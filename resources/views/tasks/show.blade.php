@@ -8,6 +8,10 @@
     
     <table class="table table-bordered">
         <tr>
+            <th>user_id</th>
+            <td>{{ $task->user_id }}</td>
+        </tr>
+        <tr>
             <th>id</th>
             <td>{{ $task->id }}</td>
         </tr>

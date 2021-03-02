@@ -8,6 +8,7 @@
     
     <div class="row">
         <div class="col-6">
+            <p>{{ $task->user_id }}</p>
             {!! Form::model($task, ["route" => ["tasks.update", $task->id], "method" => "put"]) !!}
                 
                 
